@@ -1,7 +1,9 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
-import Header from "@/components/header"; // throwing error for this please check documentation 3-3-25
+import Header from "@/components/header"; // throwing error for this please check documentation 3-3-25 
+// instead of this you could try resolving it by using ../components/header , also other options were given by chatgpt
+//otherwise uninstall node modules coz its throwing error for tailwind also
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
