@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-//throwing error for tailwind and apply check downloads and dependencies again or any other updates for this !!
+
 
 @layer base {
   :root {
