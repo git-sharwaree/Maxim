@@ -4,11 +4,12 @@ import Image from "next/image";
 import Link from "next/link";
 import { LayoutDashboard, StarsIcon, ChevronDown, FileText,PenBox, Briefcase} from 'lucide-react';
 import { Button } from './ui/button';
-import { DropdownMenu } from '@radix-ui/react-dropdown-menu';
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu';
-import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
-
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "./ui/dropdown-menu"
 
 
 const Header = () => {
@@ -17,7 +18,7 @@ const Header = () => {
         <nav className="container mx-auto px-4 h-16 flex items-center justify-between"> 
             <Link href='/'>  {/* helps in navigating to diff pages */}
                 <Image 
-                src='/mlogo.png'
+                src='/logo.png'
                 alt="maxim logo"
                 width={200}
                 height={60}
