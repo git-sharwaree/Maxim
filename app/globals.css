@@ -148,3 +148,16 @@
   background: radial-gradient(circle, transparent, rgba(0,0,0,0.9));
 
 }
+
+@layer utilites{
+  .gradient{
+    @apply bg-gradient-to-b from-gray-400 via-gray-200 to-gray-600; /* background gradient fot text to-b is top to*/
+
+  }
+   .gradient-title{
+    @apply gradient font-extrabold tracking-tighter text-transparent bg-clip-text  pb-2 pr-2; /* padding bottom and right for text*/
+
+
+  }
+
+}

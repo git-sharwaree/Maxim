@@ -1,27 +1,40 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { BanknoteArrowDown } from "lucide-react";
+import { useRef} from "react";
 
 const HeroSection = () => {
+  const imageRef = useRef(null); // this is a hook to ref the image ele
+
+  useEffect(() => {
+    const scrollPosition = Window.scrollY;
+    const scrollThread = 100;
+  },[]);
+
+
+
     return(
         <section className="width-full pt-36 md:pt-48 pb-10"> 
-           <div> 
-              <div>
-                <h1>
+           <div className="space-y-6 text-center"> 
+              <div className="space-y-6 mx-auto">
+                {/* here text 5xl is for small , md is medium, lg is large and xl is extra large */}
+                <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl xl:text-8xl 
+                 gradient-title">
                   Your AI-Career Coach for
                   <br/>
                    Profressional Success
                  
                 </h1>
-                <p>
+                <p className="mx-auto max-w-[600px] text-muted-foreground md:text-x1">
                     Advance your career with Personalized guidance, Interview prep, and 
                     AI-powered tools
                 </p> 
               </div>
 
-              <div>
+              <div className="flex justify-center space-x-4">
                 <Link href="/dashboard">
                     <Button size="lg" className="px-8"> Get Started </Button>
 
@@ -31,8 +44,8 @@ const HeroSection = () => {
                     
                 </Link>
               </div>
-              <div>
-                <div>
+              <div className="hero-image-wrapper mt-5 md:mt-0">
+                <div ref={imageRef}>
                     <Image 
                       src={"/banner.png"}
                       width={1280}
