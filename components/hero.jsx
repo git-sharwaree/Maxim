@@ -10,20 +10,35 @@ const HeroSection = () => {
   const imageRef = useRef(null); // this is a hook to ref the image ele
 
   useEffect(() => {
-    const scrollPosition = Window.scrollY;
-    const scrollThread = 100;
+      const imageElement = imageRef.current;
+
+      const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const scrollThreshold = 100;
+
+      if (scrollPosition > scrollThreshold){
+        imageElement.classList.add("scrolled");
+
+      } else {
+        imageElement.classList.remove("scrolled");
+      }
+  };
+   window.addEventListener("scroll", handleScroll);
+   return () => window.removeEventListener("scroll", handleScroll);
   },[]);
+
+  
 
 
 
     return(
-        <section className="width-full pt-36 md:pt-48 pb-10"> 
+        <section className="w-full pt-36 md:pt-48 pb-10"> 
            <div className="space-y-6 text-center"> 
               <div className="space-y-6 mx-auto">
                 {/* here text 5xl is for small , md is medium, lg is large and xl is extra large */}
                 <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl xl:text-8xl 
                  gradient-title">
-                  Your AI-Career Coach for
+                  Your AI-Career Coach for 
                   <br/>
                    Profressional Success
                  
@@ -44,10 +59,10 @@ const HeroSection = () => {
                     
                 </Link>
               </div>
-              <div className="hero-image-wrapper mt-5 md:mt-0">
-                <div ref={imageRef}>
+              <div className="hero-image-wrapper mt-5 md:mt-0 max-w-6x1 max-auto px-4">
+                <div ref={imageRef} className="hero-image">
                     <Image 
-                      src={"/banner.png"}
+                      src={"/banner.jpeg"}
                       width={1280}
                       height={720}
                       alt="dashboard preview"
