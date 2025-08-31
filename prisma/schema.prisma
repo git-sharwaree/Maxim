@@ -13,3 +13,104 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// basic structure of db includes -  assesment, resume, coverletter, user, industry insights , 
+model User {
+  id              String         @id @default(uuid())
+  clerkUserId     String         @unique
+  email           String         @unique 
+  name            String
+  imageUrl        String
+  industry        String
+  industryInsight IndustryInsight @relation(fields : [industry], references: [industry]) // foreign key ref
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  // profile fields
+  bio            String?
+  experience     Int?   // Years of exp
+  skills         String[]  // Arr of skills
+
+  assessments    Assessment[]
+  resume         Resume?
+  coverLetter    CoverLetter []
+
+}
+
+model Assessment{
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id]) // references is to the id on line 19
+  quizScore   Float    
+  questions   Json[]
+  category    String
+  improvementTip String 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([userId])
+
+}
+
+model Resume{
+  id          String     @id @default(cuid())
+  userId      String     @unique // one user can have only one resume 
+  user        User       @relation(fields: [userId], references:[id])
+  //content     String     @db.text // markdown
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+
+
+}
+
+model CoverLetter{
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  content    String  
+  jobDescription String
+  companyName String // name of the company applying to
+  jobTitle  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId])
+
+}
+
+
+
+model IndustryInsight{
+  id          String   @id @default(uuid())
+  industry    String   @unique
+  
+  // Users in this industry
+  users       User[]
+
+  //Salary data
+  salaryRanges  Json[]  // Array of role , min, max , median , location
+
+  // Industry trends
+  growthRate  Float   // 
+  demandLevel String  // high, medium , low
+  topSkills   String []
+
+  // market conditions
+  marketOutlook String // pos, neu, neg
+  keyTrends   String []
+  
+  // learning suggestions
+  recommendedSkills String[] // Skills recommended for industry
+
+  lastUpdated   DateTime @default(now())
+  nextUpdate    DateTime // scheduled update times
+
+  @@index([industry])
+}
+
+enum DemandLevel {
+  high
+  medium
+  low
+}
