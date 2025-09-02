@@ -1,11 +1,12 @@
 "use server";
-import { auth } from "@clerk/nextjs/dist/types/server";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
+//import { revalidatePath } from "next/cache";
 // this ensures that it runs on our server components 
 
 
 
-export async function updateUser(data){
+export async function updateUser(data){ 
     const { userId}= await auth();
     if(!userId) throw new Error("Unauthorized");// again check if user is logged in or not 
 
@@ -25,7 +26,7 @@ export async function updateUser(data){
         const result = await db.$transaction(
             //callback 
             async(tx) =>{
-                let industryInsights = await tx.industryInsight.findUnique({
+                let industryInsight = await tx.industryInsight.findUnique({
                     where:{
                         industry: data.industry
                     }
@@ -33,8 +34,8 @@ export async function updateUser(data){
                 
 
                 // if the industry doesnt exist create with default vals
-                if(!industryInsights){
-                    industryInsights = await tx.industryInsight.create({
+                if(!industryInsight){
+                    industryInsight = await tx.industryInsight.create({
                         data:{
                             industry: data.industry,
                             salaryRanges: [], // Default empty arr
@@ -43,14 +44,14 @@ export async function updateUser(data){
                             topSkills: [],
                             marketOutlook: "Neutral",
                             keyTrends: [],
-                            recommendedSkils: [],
+                            recommendedSkills: [],
                             nextUpdate: new Date(Date.now()+ 7*24*60*60*1000),
                         }
                     });
                 }
 
                 // update the user
-                const updateUser = await tx.user.update({
+                const updatedUser = await tx.user.update({
                     where:{
                         id: user.id,
                     },
@@ -69,7 +70,9 @@ export async function updateUser(data){
             
             
 
-        ); return result.user;
+        ); 
+        //revalidatePath("/");
+        return result.user;
     }catch (error){
         console.error("Error updating user and industry:",error.message);
         throw new Error("Sorry! couldn't update user profile");
@@ -83,7 +86,7 @@ export async function getUserOnboardingStatus(){
     
     const user = await db.user.findUnique({
         where:{
-            clerUserId: userId,
+            clerkUserId: userId,
         }
     }) // check if user in db
 
