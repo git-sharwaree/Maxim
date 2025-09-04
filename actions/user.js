@@ -72,7 +72,7 @@ export async function updateUser(data){
 
         ); 
         //revalidatePath("/");
-        return result.user;
+        return {success:true, ...result};
     }catch (error){
         console.error("Error updating user and industry:",error.message);
         throw new Error("Sorry! couldn't update user profile");

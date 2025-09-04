@@ -7,15 +7,24 @@ import { useRouter } from "next/router";
 import { Card,CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectTrigger, SelectContent,SelectValue,SelectItem } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { updateUser } from "@/actions/user";
+import useFetch  from "@/hooks/use-fetch";
+import { useEffect } from "react";
 
 const OnboardingForm = ({ industries }) => {
 
     const [selectedIndustry, setSelectedIndustry] = useState(null);
-    const router = useRouter()
+    const router = useRouter();
+
+    const {
+        loading: updateLoading, 
+        fn: updateUserFn,
+        data: updateResult,
+    } = useFetch(updateUser);
 
     const {
         register,
-        handleSubmit,
+         handleSubmit,
         formState: { errors }, // is used to handle if user doesnt select any industry
         setValue,
         watch
@@ -23,8 +32,33 @@ const OnboardingForm = ({ industries }) => {
         resolver: zodResolver(onboardingSchema),
     });
 
+    useEffect(() =>{
+        if(updateResult?.success && !updateLoading){
+            toast.success("Profile completed successfully");
+            router.push("/dashboard");
+            router.refresh();
+        }
+    }, [updateResult, updateLoading])
+
     const watchIndustry = watch("industry");
-    const onSubmit = async (values )=> {};
+    const onSubmit = async (values )=> {
+        try{
+            const formattedIndustry = `${values.industry}-${values.subIndustry
+                .toLowerCase()
+                .replace(/  /g, "-")}`; // tech-software-development 
+                
+                await updateUserFn({
+                    ...values,
+                    industry: formattedIndustry, 
+                })
+            }   
+                
+
+         catch(error){
+            console.error("onboard error",error); 
+        }
+    };
+
 
     
     // wrap the onboarding form into a card from shadcn ui
@@ -164,10 +198,24 @@ const OnboardingForm = ({ industries }) => {
                             </p>
                         )}
                     </div>
+                    <Button type="submit" className="w-full" disabled={updateLoading}>
+                        {updateLoading ? (
+                            <>
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin"/>
+                            Saving...
+                            </>
+
+                        ): (
+                            "complete profile"
+                        )}
+                        
+                        
+                    </Button>
                 </form>
+                
             </CardContent>
         </Card>
-
+    
      
 
     </div>
@@ -175,3 +223,5 @@ const OnboardingForm = ({ industries }) => {
 };
 
 export default OnboardingForm;
+
+
