@@ -40,9 +40,9 @@ export async function updateUser(data){
                             industry: data.industry,
                             salaryRanges: [], // Default empty arr
                             growthRate: 0,
-                            demandLevel: "Medium",
+                            demandLevel: "MEDIUM",
                             topSkills: [],
-                            marketOutlook: "Neutral",
+                            marketOutlook: "NEUTRAL",
                             keyTrends: [],
                             recommendedSkills: [],
                             nextUpdate: new Date(Date.now()+ 7*24*60*60*1000),
