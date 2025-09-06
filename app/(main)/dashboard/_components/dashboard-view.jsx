@@ -19,4 +19,4 @@ const DashboardView = ({insights}) => {
      
 };
 
-export default DashboardView
+export default DashboardView;

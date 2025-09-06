@@ -1,15 +1,16 @@
 "use client";
 
+import { useEffect,useState } from "react";
+import { useRouter } from "next/navigation";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import { onboardingSchema } from "@/app/lib/schema";
-import { useRouter } from "next/router";
 import { Card,CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectContent,SelectValue,SelectItem } from "@/components/ui/select";
+import { Select, SelectTrigger, SelectContent,SelectValue,SelectItem, SelectGroup, SelectLabel } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { updateUser } from "@/actions/user";
 import useFetch  from "@/hooks/use-fetch";
-import { useEffect } from "react";
+
 
 const OnboardingForm = ({ industries }) => {
 
@@ -32,15 +33,7 @@ const OnboardingForm = ({ industries }) => {
         resolver: zodResolver(onboardingSchema),
     });
 
-    useEffect(() =>{
-        if(updateResult?.success && !updateLoading){
-            toast.success("Profile completed successfully");
-            router.push("/dashboard");
-            router.refresh();
-        }
-    }, [updateResult, updateLoading])
-
-    const watchIndustry = watch("industry");
+    
     const onSubmit = async (values )=> {
         try{
             const formattedIndustry = `${values.industry}-${values.subIndustry
@@ -58,6 +51,16 @@ const OnboardingForm = ({ industries }) => {
             console.error("onboard error",error); 
         }
     };
+
+    useEffect(() =>{
+        if(updateResult?.success && !updateLoading){
+            toast.success("Profile completed successfully");
+            router.push("/dashboard");
+            router.refresh();
+        }
+    }, [updateResult, updateLoading])
+
+    const watchIndustry = watch("industry");
 
 
     
