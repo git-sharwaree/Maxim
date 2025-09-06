@@ -1,5 +1,5 @@
 "use server";
-import { auth } from "@clerk/nextjs/dist/types/server";
+import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai"; // in terminal run npm i @google/generative-ai
 
