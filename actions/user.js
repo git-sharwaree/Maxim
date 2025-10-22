@@ -1,7 +1,8 @@
 "use server";
 import { auth } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-//import { revalidatePath } from "next/cache";
+import { generateAIInsights } from "./dashboard";
+import { revalidatePath } from "next/cache";
 // this ensures that it runs on our server components 
 
 
@@ -39,7 +40,7 @@ export async function updateUser(data){
 
                       industryInsight = await db.industryInsight.create({
                         data:{
-                            industy: data.industry,
+                            industry: data.industry,
                             ...insights,
                             nextUpdate: new Date(Date.now() + 7*24*60*60*1000),
                         },
@@ -57,19 +58,20 @@ export async function updateUser(data){
                         experience: data.experience,
                         bio: data.bio,
                         skills: data.skills
-                    }
-                })
+                    },
+                });
                 return { updatedUser, industryInsight};
             },
             {
-                timeout:10000, //default is 5 secsf
+                timeout:60000, //default is 5 secsf
             }
             
             
 
         ); 
-        //revalidatePath("/");
+        revalidatePath("/");
         return {success:true, ...result};
+        //return result.user;
     }catch (error){
         console.error("Error updating user and industry:",error.message);
         throw new Error("Sorry! couldn't update user profile");
@@ -109,3 +111,4 @@ export async function getUserOnboardingStatus(){
     }
 
 }
+

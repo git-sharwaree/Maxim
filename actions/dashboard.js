@@ -4,12 +4,12 @@ import { db } from "@/lib/prisma";
 import { GoogleGenerativeAI } from "@google/generative-ai"; // in terminal run npm i @google/generative-ai
 
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY )
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY)
 
 // model object 
 const model = genAI.getGenerativeModel({
 
-    model: "gemini-1.5-flash", 
+    model: "gemini-2.5-flash", 
 });
 
 
@@ -25,7 +25,7 @@ export const generateAIInsights = async (industry) => {
                     ],
                     "growthRate": number,
                     "demandLevel": "HIGH" | "MEDIUM" | "LOW",
-                    "topskills": ["skill1", "skill2" ],
+                    "topSkills": ["skill1", "skill2" ],
                     "marketOutlook": "POSITIVE" | "NEUTRAL" | "NEGATIVE",
                     "keyTrends" : ["trend1", "trend2" ],
                     "recommendedSkills": ["skill1", "skill2" ]
@@ -89,3 +89,4 @@ export async function getIndustryInsights(){
 
      
 }
+

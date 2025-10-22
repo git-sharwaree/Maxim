@@ -8,7 +8,7 @@ import { toast } from "sonner";
    const [loading, setLoading] = useState(null);
    const [error, setError ] = useState(null);
 
-   const fn=async ()=>{
+   const fn=async (...args)=>{
     setLoading(true);
     setError(null);
 
@@ -25,9 +25,9 @@ import { toast } from "sonner";
         setLoading(false);
     }
 
-   }
+   };
 
-   return { data, loading, error, fn, useState}
+   return { data, loading, error, fn,setData};
 };
 
 export default useFetch;
